@@ -4,9 +4,20 @@ import java.util.*;
 
 public class AddMatrix {
     
+    String MatrixString(int[][] matrix,int n,int m){
+        String output = "";
+        for (int i = 0; i < n; i++){
+            for (int j = 0;j < m; j++){
+                output += matrix[i][j] + " ";
+                
+            }
+            output += "\n";
+        }
+    return output;
+
+    }
     public static void main(String[] args){
         
-
         String str = (String)JOptionPane.showInputDialog(null,"Input element in first matrix (Separated by comma): ","input",JOptionPane.INFORMATION_MESSAGE,null,null,"1 2 3,4 5 6,7 8 9");
         String[] arra = str.split(",");
        
@@ -31,20 +42,17 @@ public class AddMatrix {
                 array2[i][j] = Integer.parseInt(arra02[j]);
             }
         }
+        AddMatrix ob = new AddMatrix();
 
         System.out.print(Arrays.toString(array1));
-        JOptionPane.showMessageDialog(null,"Input matrix 1: " + Arrays.deepToString(array1) + "\nInput matrix 2: " +Arrays.deepToString(array2),"Information",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Input matrix 1: \n" + ob.MatrixString(array1,n,m) + "\nInput matrix 2: \n" + ob.MatrixString(array2,n,m),"Information",JOptionPane.INFORMATION_MESSAGE);
         int [][] sum = new int[n][m];
-        String output = "";
         for (int i = 0; i < n; i++){
             for (int j = 0;j < m; j++){
                 sum[i][j] = array1[i][j] + array2[i][j];
-                output += sum[i][j] + " ";
-                
             }
-            output += "\n";
         }
-        JOptionPane.showMessageDialog(null,"Sum of two matrices: \n" + output,"Information",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null,"Sum of two matrices: \n" + ob.MatrixString(sum,n,m),"Information",JOptionPane.INFORMATION_MESSAGE);
 
     }
 }

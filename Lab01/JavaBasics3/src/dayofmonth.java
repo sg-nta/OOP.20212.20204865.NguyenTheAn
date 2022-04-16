@@ -57,7 +57,7 @@ public class dayofmonth {
         }
 
         JOptionPane.showMessageDialog(null,"You've entered: Month = " + month +
-        "\n Year = " +year ,"result",JOptionPane.INFORMATION_MESSAGE);
+        "\nYear = " +year ,"result",JOptionPane.INFORMATION_MESSAGE);
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
 			JOptionPane.showMessageDialog(null,"This month has: 31 days" ,"result",JOptionPane.INFORMATION_MESSAGE);
 		}

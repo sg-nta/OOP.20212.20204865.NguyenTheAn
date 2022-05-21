@@ -7,46 +7,9 @@ import hust.soict.dsai.aims.store.Store;
 
 public class Aims {
 	public static void main(String[] args) {
-		/* Previous lab
-		Cart anOrder = new Cart();
-		
-		//Test method create DVD and method addDigitalVideoDisc
-		DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King",
-				"Animation","Roger Allers", 87, 19.95f);
-		anOrder.addDigitalVideoDisc(dvd1);
-		DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars",
-				"Science Fiction","George Lucas", 87, 24.95f);
-		anOrder.addDigitalVideoDisc(dvd2);
-		DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin",
-				"Animation", 18.99f);
-		anOrder.addDigitalVideoDisc(dvd3);
-		System.out.println("Total Cost is: " + anOrder.totalCost());
-		DigitalVideoDisc dvd4 = new DigitalVideoDisc("XYZ",
-				"Animation", 40f);
-		anOrder.addDigitalVideoDisc(dvd4);
-		System.out.println("Total Cost is: " + anOrder.totalCost());
-		
-		//Test method removeDigitalVideoDisc
-		anOrder.removeDigitalVideoDisc(dvd2);
-		System.out.println("Total Cost is: " + anOrder.totalCost());
-		anOrder.removeDigitalVideoDisc(dvd2);
-
-		
-		//Test method addDigitalVideoDisc for list of discs
-		
-		DigitalVideoDisc[] discArr = new DigitalVideoDisc[4];
-		discArr[0] = new DigitalVideoDisc("Science fact","Science",20f);
-		discArr[1] = new DigitalVideoDisc("Biology study","Biology",40f);
-		discArr[2] = new DigitalVideoDisc("Math study","Math",25f);
-		discArr[3] = new DigitalVideoDisc("Python tutorials","Programming",60f);
-		anOrder.addDigitalVideoDisc(discArr);
-		System.out.println("Total Cost is: " + anOrder.totalCost());
-		*/
 		Store store = new Store();
 		Cart cart = new Cart();
 		showMenu(store, cart);
-		
-		
 	}
 	public static void showMenu(Store store, Cart cart) {
 		System.out.println("AIMS: ");
@@ -93,7 +56,7 @@ public class Aims {
 		}
 		else if (choosen == 2) {
 			store.print();
-			System.out.println("Enter the title of DVD you want to add to cart");
+			System.out.println("Enter the ID of DVD you want to add to cart");
 			Scanner title = new Scanner(System.in);
 			String titleString = title.next();
 			DigitalVideoDisc disc = store.getDiscByTitle(titleString);

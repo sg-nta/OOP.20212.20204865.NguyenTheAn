@@ -19,7 +19,7 @@ public class Cart {
 			int count = 0;
 			int notfull = 0;
 			for (int i = 0; i < 20; i ++) {
-				if (itemOrdered[i] == null) {
+				if ((itemOrdered[i] == null) && (disc != null)) {
 					for (int j = 0; j < 20; j ++) {
 						if (itemOrdered[j] == disc){
 							System.out.println("This disc is already in your cart");

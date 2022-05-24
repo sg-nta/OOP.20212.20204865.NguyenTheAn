@@ -1,0 +1,10 @@
+Q1 : After the call of swap(jungleDVD, cinderellaDVD) why does the title of these two objects still remain?
+ANSWER: Java has heap memory and stack memory. When we create jungleDVD and cinderellaDVD objects, they
+are saved in heap memory. When we call swap method, it create new variables o1,o2 in stack memory that point to
+the objects in heap memory. In swap method, we use "=" to assign variables, and that just changes the variables
+in the stack memory and doesn't affect objects in heap memory. So the titles remain unchange.
+Q2: After the call of changeTitle(jungleDVD, cinderellaDVD.getTitle()) why is the title of the JungleDVD changed? 
+ANSWER: The setTitle method will directly modify the object in the heap memory. So the title of Jungle
+will change to cinderella. After that, the method "dvd = new DigitalVideoDisc (oldTitle)" will create 
+new DVD object in heap memory, and variable "dvd" in stack memory will now point to it. But it will not
+change the DVD object "jungledvd" in the heap memory. So the title of jungledvd will still "cinderella"

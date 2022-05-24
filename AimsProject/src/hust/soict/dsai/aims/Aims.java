@@ -1,10 +1,8 @@
 package hust.soict.dsai.aims;
-import java.util.Scanner;
-
+import java.util.*;
 import hust.soict.dsai.aims.cart.Cart;
 import hust.soict.dsai.aims.disc.DigitalVideoDisc;
 import hust.soict.dsai.aims.store.Store;
-
 public class Aims {
 	public static void main(String[] args) {
 		Store store = new Store();
@@ -56,7 +54,7 @@ public class Aims {
 		}
 		else if (choosen == 2) {
 			store.print();
-			System.out.println("Enter the ID of DVD you want to add to cart");
+			System.out.println("Enter the title of DVD you want to add to cart");
 			Scanner title = new Scanner(System.in);
 			String titleString = title.next();
 			DigitalVideoDisc disc = store.getDiscByTitle(titleString);
@@ -147,10 +145,15 @@ public class Aims {
 		int choosen = choose.nextInt();
 		if(choosen == 1) {
 			System.out.println("Enter ID: ");
-			Scanner inp = new Scanner(System.in);
-			int id = inp.nextInt();
-			cart.searchByID(id);
-			filterDVD(store,cart);
+			try {
+				Scanner inp = new Scanner(System.in);
+				int id = inp.nextInt();
+				cart.searchByID(id);
+			}catch(InputMismatchException id) {
+				System.out.println("ID must be int");
+			}finally {
+				filterDVD(store,cart);
+			}
 		}
 		else if(choosen == 2) {
 			System.out.println("Enter Title: ");
@@ -205,43 +208,63 @@ public class Aims {
 			store.addDVD(dvd);
 			addDVD(store,cart);
 		}
-		if (choosen == 2) {
+		else if (choosen == 2) {
 			System.out.println("Enter the title, category, cost (seperated by space): ");
-			Scanner inp = new Scanner(System.in);
-			String title = inp.next();
-			String category = inp.next();
-			float cost = inp.nextFloat();
-			DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, cost);
-			store.addDVD(dvd);
+			try {
+				Scanner inp = new Scanner(System.in);
+				String title = inp.next();
+				String category = inp.next();
+				float cost = inp.nextFloat();
+	
+				DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, cost);
+				store.addDVD(dvd);
+			} catch (InputMismatchException cost) {
+				System.out.println("The cost must be in float type");
+			}finally {
 			addDVD(store,cart);
-
+			}
 		}
-		if (choosen == 3) {
+		else if (choosen == 3) {
 			System.out.println("Enter the title, category, director, cost (seperated by space): ");
-			Scanner inp = new Scanner(System.in);
-			String title = inp.next();
-			String category = inp.next();
-			String director = inp.next();
-			float cost = inp.nextFloat();
-			DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, director, cost);
-			store.addDVD(dvd);
+			try {
+				Scanner inp = new Scanner(System.in);
+				String title = inp.next();
+				String category = inp.next();
+				String director = inp.next();
+				float cost = inp.nextFloat();
+	
+				DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, director, cost);
+				store.addDVD(dvd);
+			} catch (InputMismatchException cost) {
+				System.out.println("The cost must be in float type");
+			}finally {
 			addDVD(store,cart);
+			}
 
 		}
-		if (choosen == 4) {
+		else if (choosen == 4) {
 			System.out.println("Enter the title, category, director, length, cost (seperated by space): ");
 			Scanner inp = new Scanner(System.in);
 			String title = inp.next();
 			String category = inp.next();
 			String director = inp.next();
-			int length = inp.nextInt();
-			float cost = inp.nextFloat();
-			DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, director, length, cost);
-			store.addDVD(dvd);
-			addDVD(store,cart);
-
+			try {
+				int length = inp.nextInt();
+				try {
+					float cost = inp.nextFloat();
+					DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, director, length, cost);
+					store.addDVD(dvd);
+				}
+				catch (InputMismatchException cost) {
+					System.out.println("The cost must be in float type");
+				}
+			} catch (InputMismatchException length) {
+				System.out.println("The length must be in int type");
+			}finally {
+				addDVD(store,cart);
+			}
 		}
-		if (choosen == 0) {
+		else {
 			updateStore(store, cart);
 		}
 		

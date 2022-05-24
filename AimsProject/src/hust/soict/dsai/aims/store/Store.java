@@ -59,16 +59,14 @@ public class Store {
 	}
 	public DigitalVideoDisc getDiscByTitle(String title) {
 		DigitalVideoDisc out = null ;
-		for (int i = 0; i < numItem + 1; i ++) {
+		for (int i = 0; i < numItem; i ++) {
 			if (itemsInStore[i] != null) {
 				if (itemsInStore[i].getTitle().equals(title)) {
-					out = itemsInStore[i]; 
+					out = itemsInStore[i];
 					break;
 				}
 			}
 		}
 		return out;
-		
-
 	}
 }

@@ -2,8 +2,11 @@ package hust.soict.dsai.aims;
 
 public class MemoryDaemon implements Runnable {
 	private long memoryUsed = 0;
+	Thread t;
 	public MemoryDaemon() {
 		// TODO Auto-generated constructor stub
+		t = new Thread(this,"Thread");
+		t.start();
 	}
 
 	@Override

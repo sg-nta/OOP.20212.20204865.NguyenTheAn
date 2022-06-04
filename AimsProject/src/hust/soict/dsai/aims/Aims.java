@@ -10,7 +10,31 @@ public class Aims {
 	public static void main(String[] args) {
 		Store store = new Store();
 		Cart cart = new Cart();
+		MemoryDaemon memoryDaemon = new MemoryDaemon();
+
 		showMenu(store, cart);
+
+		while (true) {
+			Scanner choose = new Scanner(System.in);
+			int choosen = choose.nextInt();
+			if (choosen == 1) {
+				storeMenu(store, cart);
+			}
+			else if (choosen == 2) {
+				updateStore(store, cart);
+			}
+			else if (choosen == 3) {
+				cartMenu(store, cart);
+			}
+			else {
+				System.out.println("Goodbye, see you again");
+				break;
+			}
+		}
+
+		memoryDaemon.run();
+
+
 	}
 	public static void showMenu(Store store, Cart cart) {
 		System.out.println("AIMS: ");
@@ -21,22 +45,7 @@ public class Aims {
 		System.out.println("0. Exit");
 		System.out.println("-----------------------------");
 		System.out.println("Please choose a number: 0-1-2-3");
-		Scanner choose = new Scanner(System.in);
-		int choosen = choose.nextInt();
-		if (choosen == 1) {
-			storeMenu(store, cart);
-		}
-		else if (choosen == 2) {
-			updateStore(store, cart);
-		}
-		else if (choosen == 3) {
-			cartMenu(store, cart);
-		}
-		else {
-			System.out.println("Goodbye, see you again");
-			memoryDaemon.run();
-			System.exit(0);
-		}
+
 	}
 	public static void storeMenu(Store store, Cart cart) {
 		System.out.println("Options: ");
@@ -70,6 +79,7 @@ public class Aims {
 		}
 		else {
 			showMenu(store, cart);
+		
 		}
 
 	}
@@ -86,12 +96,10 @@ public class Aims {
 		Scanner choose = new Scanner(System.in);
 		int choosen = choose.nextInt();
 		if(choosen == 1) {
-			filterDVD(store, cart);
-			cartMenu(store,cart);
+			filterMedia(store, cart);
 		}
 		else if (choosen == 2) {
-			sortDVD(store, cart);
-			cartMenu(store,cart);
+			sortMedia(store, cart);
 		}
 		else if (choosen == 3) {
 			System.out.println("Enter the title of the DVD you want to remove ");
@@ -130,7 +138,6 @@ public class Aims {
 		int choosen = choose.nextInt();
 		if (choosen == 1) {
 			addDVD(store,cart);
-			updateStore(store,cart);
 		}
 		else if (choosen == 2) {
 			store.print();
@@ -146,11 +153,11 @@ public class Aims {
 		}
 	}	
 	
-	public static void filterDVD(Store store, Cart cart) {
+	public static void filterMedia(Store store, Cart cart) {
 		System.out.println("Options: ");
 		System.out.println("-----------------------------");
-		System.out.println("1. Filter DVDs by ID");
-		System.out.println("2. Filter DVDs by Title");
+		System.out.println("1. Filter meidas by ID");
+		System.out.println("2. Filter medias by Title");
 		System.out.println("0. Back");
 		System.out.println("-----------------------------");
 		System.out.println("Please choose a number: 0-1-2");
@@ -165,7 +172,7 @@ public class Aims {
 			}catch(InputMismatchException id) {
 				System.out.println("ID must be int");
 			}finally {
-				filterDVD(store,cart);
+				filterMedia(store,cart);
 			}
 		}
 		else if(choosen == 2) {
@@ -173,13 +180,13 @@ public class Aims {
 			Scanner inp = new Scanner(System.in);
 			String title = inp.next();
 			cart.searchByTitle(title);
-			filterDVD(store,cart);
+			filterMedia(store,cart);
 		}
 		else {
 			cartMenu(store,cart);
 		}
 }
-	public static void sortDVD(Store store, Cart cart) {
+	public static void sortMedia(Store store, Cart cart) {
 		System.out.println("Options: ");
 		System.out.println("-----------------------------");
 		System.out.println("1. Sort DVDs by Cost");
@@ -191,11 +198,11 @@ public class Aims {
 		int choosen = choose.nextInt();
 		if(choosen == 1) {
 			cart.sortByCost();
-			sortDVD(store,cart);
+			sortMedia(store,cart);
 		}
 		else if(choosen == 2) {
 			cart.sortByTitle();
-			sortDVD(store,cart);
+			sortMedia(store,cart);
 		}
 		else {
 			cartMenu(store,cart);

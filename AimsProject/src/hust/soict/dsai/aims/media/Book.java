@@ -4,16 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Book extends Media{
-	private int id;
 	private List<String> authors = new ArrayList<String>();
 	public Book() {
 		// TODO Auto-generated constructor stub
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
+		super();
 	}
 	private List<String> getAuthors() {
 		return authors;

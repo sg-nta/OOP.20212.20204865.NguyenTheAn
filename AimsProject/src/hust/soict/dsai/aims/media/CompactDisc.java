@@ -10,6 +10,7 @@ public class CompactDisc extends Disc implements Playable{
 	public CompactDisc(String artist) {
 		super();
 		this.artist = artist;
+
 		// TODO Auto-generated constructor stub
 	}
 

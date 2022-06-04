@@ -1,7 +1,10 @@
 package hust.soict.dsai.aims;
 import java.util.*;
+
+import hust.soict.dsai.aims.media.Media ;
+
 import hust.soict.dsai.aims.cart.Cart;
-import hust.soict.dsai.aims.disc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.store.Store;
 public class Aims {
 	public static void main(String[] args) {
@@ -31,14 +34,15 @@ public class Aims {
 		}
 		else {
 			System.out.println("Goodbye, see you again");
+			memoryDaemon.run();
 			System.exit(0);
 		}
 	}
 	public static void storeMenu(Store store, Cart cart) {
 		System.out.println("Options: ");
 		System.out.println("-----------------------------");
-		System.out.println("1. See a DVD's details");
-		System.out.println("2. Add a DVD to cart");
+		System.out.println("1. See a media's details");
+		System.out.println("2. Add a media to cart");
 		System.out.println("3. See current cart");
 		System.out.println("0. Back");
 		System.out.println("-----------------------------");
@@ -46,7 +50,7 @@ public class Aims {
 		Scanner choose = new Scanner(System.in);
 		int choosen = choose.nextInt();
 		if (choosen == 1) {
-			System.out.println("Enter title of DVD you want to see: ");
+			System.out.println("Enter title of media you want to see: ");
 			Scanner title = new Scanner(System.in);
 			String titleString = title.next();
 			store.viewDetails(titleString);
@@ -57,8 +61,8 @@ public class Aims {
 			System.out.println("Enter the title of DVD you want to add to cart");
 			Scanner title = new Scanner(System.in);
 			String titleString = title.next();
-			DigitalVideoDisc disc = store.getDiscByTitle(titleString);
-			cart.addDigitalVideoDisc(disc);
+			Media media = store.getMediaByTitle(titleString);
+			cart.addMedia(media);
 			storeMenu(store,cart);
 		}
 		else if (choosen == 3) {
@@ -72,9 +76,9 @@ public class Aims {
 	public static void cartMenu(Store store, Cart cart) {
 		System.out.println("Options: ");
 		System.out.println("-----------------------------");
-		System.out.println("1. Filter DVDs in cart");
-		System.out.println("2. Sort DVDs in cart");
-		System.out.println("3. Remove DVD from cart");
+		System.out.println("1. Filter media in cart");
+		System.out.println("2. Sort media in cart");
+		System.out.println("3. Remove media from cart");
 		System.out.println("4. Place order");
 		System.out.println("0. Back");
 		System.out.println("-----------------------------");
@@ -93,12 +97,20 @@ public class Aims {
 			System.out.println("Enter the title of the DVD you want to remove ");
 			Scanner inp = new Scanner(System.in);
 			String title = inp.next();
-			DigitalVideoDisc dvd = new DigitalVideoDisc(title);
-			cart.removeDigitalVideoDisc(dvd);
+			Media media = new DigitalVideoDisc(title);
+			cart.removeMedia(media);
 			cartMenu(store,cart);
 		}
 		else if (choosen == 4) {
 			System.out.println("An order is created!");
+			Media lucky = cart.getALuckyItem();
+			if (lucky != null) {
+				System.out.println("You got a lucky item " + lucky.getTitle());
+				System.out.println("Your cart has been updated! ");
+				cart.print();
+				System.out.println("Lucky item: - " + lucky.getCost());
+				System.out.println("Total cost: " + cart.getTotalCost());
+			}
 			cart.emptyCart();
 			showMenu(store, cart);
 		}
@@ -109,8 +121,8 @@ public class Aims {
 	public static void updateStore(Store store, Cart cart) {
 		System.out.println("Options: ");
 		System.out.println("-----------------------------");
-		System.out.println("1. Add a DVD to store");
-		System.out.println("2. Remove a DVD from store");
+		System.out.println("1. Add a media to store");
+		System.out.println("2. Remove a media from store");
 		System.out.println("0. Back");
 		System.out.println("-----------------------------");
 		System.out.println("Please choose a number: 0-1-2");
@@ -125,7 +137,8 @@ public class Aims {
 			System.out.println("Enter the title of DVD you want to remove");
 			Scanner inp = new Scanner(System.in);
 			String title = inp.next();
-			store.removeDVD(title);
+			Media media = new DigitalVideoDisc(title);
+			store.removeMedia(media);
 			updateStore(store,cart);
 		}
 		else {
@@ -205,7 +218,7 @@ public class Aims {
 			Scanner inp = new Scanner(System.in);
 			String title = inp.next();
 			DigitalVideoDisc dvd = new DigitalVideoDisc(title);
-			store.addDVD(dvd);
+			store.addMedia(dvd);
 			addDVD(store,cart);
 		}
 		else if (choosen == 2) {
@@ -217,7 +230,7 @@ public class Aims {
 				float cost = inp.nextFloat();
 	
 				DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, cost);
-				store.addDVD(dvd);
+				store.addMedia(dvd);
 			} catch (InputMismatchException cost) {
 				System.out.println("The cost must be in float type");
 			}finally {
@@ -234,7 +247,7 @@ public class Aims {
 				float cost = inp.nextFloat();
 	
 				DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, director, cost);
-				store.addDVD(dvd);
+				store.addMedia(dvd);
 			} catch (InputMismatchException cost) {
 				System.out.println("The cost must be in float type");
 			}finally {
@@ -253,7 +266,7 @@ public class Aims {
 				try {
 					float cost = inp.nextFloat();
 					DigitalVideoDisc dvd = new DigitalVideoDisc(title, category, director, length, cost);
-					store.addDVD(dvd);
+					store.addMedia(dvd);
 				}
 				catch (InputMismatchException cost) {
 					System.out.println("The cost must be in float type");

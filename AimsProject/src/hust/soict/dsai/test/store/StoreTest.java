@@ -2,7 +2,7 @@ package hust.soict.dsai.test.store;
 import java.util.Scanner;
 
 import hust.soict.dsai.aims.cart.Cart;
-import hust.soict.dsai.aims.disc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.store.Store;
 public class StoreTest {
 	public static void main (String[] args) {

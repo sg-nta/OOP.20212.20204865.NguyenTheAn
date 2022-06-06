@@ -10,7 +10,9 @@ public class Aims {
 	public static void main(String[] args) {
 		Store store = new Store();
 		Cart cart = new Cart();
-		MemoryDaemon memoryDaemon = new MemoryDaemon();
+		Thread a = new Thread(new MemoryDaemon());
+		//a.setDaemon(true);
+		a.start();
 
 		showMenu(store, cart);
 
@@ -32,7 +34,6 @@ public class Aims {
 			}
 		}
 
-		memoryDaemon.run();
 
 
 	}

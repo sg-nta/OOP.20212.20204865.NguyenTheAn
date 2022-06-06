@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Book extends Media{
 	private List<String> authors = new ArrayList<String>();
-	public Book() {
+	public Book(List<String> authors) {
 		// TODO Auto-generated constructor stub
-		super();
+		this.authors = authors;
 	}
 	private List<String> getAuthors() {
 		return authors;
@@ -42,6 +42,10 @@ public class Book extends Media{
 			authors.remove(index);
 			System.out.println("This author's name has been removed");
 		}
+	}
+	public String toString() {
+		String result = "Book - " + super.toString() + " - Author: " + this.getAuthors();
+		return result;
 	}
 	
 	

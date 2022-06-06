@@ -54,5 +54,16 @@ public abstract class Media {
 	public void setID(int id) {
 		this.ID = id;
 	}
+	public boolean equals(Object o) {
+		if (o instanceof Media) {
+			Media media = (Media) o;
+			return this.getTitle().equals(media.getTitle());
+		}
+		return false;
+	}
+	public String toString() {
+		String result = "ID: " + this.getID() + " - Title: " + this.getTitle() + " - Category: " + this.getCategory() + " - Cost: " + this.getCost();
+		return result;
+	}
 
 }

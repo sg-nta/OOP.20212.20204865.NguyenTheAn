@@ -76,29 +76,6 @@ public abstract class Media implements Comparable<Media> {
 		return Comparator.comparing(Media::getTitle).thenComparing(Media::getCategory).compare(this, o);
 	}
 	
-	public class MediaComparatorByTitleCost implements Comparator<Media>{
-
-		@Override
-		public int compare(Media o1, Media o2) {
-			// TODO Auto-generated method stub
-			if (o1.getTitle() != o2.getTitle()) {
-				return o1.getTitle().compareTo(o2.getTitle()); 
-			}
-			return (int) ( o1.getCost() - o2.getCost()) ;
-		}
-		
-	}
-	public class MediaComparatorByCostTitle implements Comparator<Media>{
-
-		@Override
-		public int compare(Media o1, Media o2) {
-			// TODO Auto-generated method stub
-			if (o1.getCost() != o2.getCost()) {
-				return (int) ( o1.getCost() - o2.getCost()) ;
-			}
-			return o1.getTitle().compareTo(o2.getTitle());
-		}
-		
-	}
 
 }
+

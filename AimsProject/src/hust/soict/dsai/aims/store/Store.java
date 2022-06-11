@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.Playable;
 
 public class Store {
 	private ArrayList<Media> itemsInStore = new	ArrayList<Media>();
@@ -60,6 +61,12 @@ public class Store {
 			}
 		}
 		return out;
+	}
+	public void playMedia(String title) {
+		Media media = this.getMediaByTitle(title);
+		if (media instanceof Playable) {
+			((Playable) media).play();
+		}
 	}
 	public void setID() {
 		for (int i = 0; i < itemsInStore.size(); i++ ) {

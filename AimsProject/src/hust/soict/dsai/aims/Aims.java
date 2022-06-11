@@ -64,6 +64,12 @@ public class Aims {
 			Scanner title = new Scanner(System.in);
 			String titleString = title.next();
 			store.viewDetails(titleString);
+			System.out.println("Do you want to play this media? (y/n)");
+			Scanner play = new Scanner(System.in);
+			String playString = play.next();
+			if (playString.equals("y")) {
+				store.playMedia(titleString);
+			}
 			storeMenu(store,cart);
 		}
 		else if (choosen == 2) {
@@ -90,7 +96,8 @@ public class Aims {
 		System.out.println("1. Filter media in cart");
 		System.out.println("2. Sort media in cart");
 		System.out.println("3. Remove media from cart");
-		System.out.println("4. Place order");
+		System.out.println("4. Play a media in cart");
+		System.out.println("5. Place order");
 		System.out.println("0. Back");
 		System.out.println("-----------------------------");
 		System.out.println("Please choose a number: 0-1-2-3-4");
@@ -103,7 +110,7 @@ public class Aims {
 			sortMedia(store, cart);
 		}
 		else if (choosen == 3) {
-			System.out.println("Enter the title of the DVD you want to remove ");
+			System.out.println("Enter the title of the media you want to remove ");
 			Scanner inp = new Scanner(System.in);
 			String title = inp.next();
 			Media media = new DigitalVideoDisc(title);
@@ -111,6 +118,13 @@ public class Aims {
 			cartMenu(store,cart);
 		}
 		else if (choosen == 4) {
+			cart.toString();
+			System.out.println("Enter the title of the media you want to play ");
+			Scanner inp = new Scanner(System.in);
+			String title = inp.next();
+			cart.playMedia(title);
+		}
+		else if (choosen == 5) {
 			System.out.println("An order is created!");
 			Media lucky = cart.getALuckyItem();
 			if (lucky != null) {

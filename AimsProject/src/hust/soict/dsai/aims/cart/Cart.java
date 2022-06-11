@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.Playable;
+
 import java.lang.Math;
 public class Cart {
 	public static final int MAX_NUMBERS_ORDERED = 20;
@@ -132,5 +134,17 @@ public class Cart {
 	}
 	public double getTotalCost() {
 		return this.totalCost;
+	}
+	public void playMedia(String title) {
+		Media media = null ;
+		for (int i = 0; i < itemsOrdered.size(); i ++) {
+			if (itemsOrdered.get(i).getTitle().equals(title)) {
+				media = itemsOrdered.get(i);
+				break;
+			}
+		}
+		if (media instanceof Playable) {
+			((Playable) media).play();
+		}
 	}
 }

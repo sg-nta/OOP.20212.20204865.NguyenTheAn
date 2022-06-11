@@ -53,7 +53,8 @@ public class CompactDisc extends Disc implements Playable{
 		return sum;
 	}
 	public void play() {
-		for (Track track: tracks) {
+		System.out.println("Playing CD: " + this.getTitle());
+ 		for (Track track: tracks) {
 			track.play();
 		}
 	}
@@ -61,6 +62,8 @@ public class CompactDisc extends Disc implements Playable{
 		String result = "CD - " + super.toString() + " - Artist: " + this.getArtist();
 		return result;
 	}
+
+	
 	
 
 }

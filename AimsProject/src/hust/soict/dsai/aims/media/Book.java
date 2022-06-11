@@ -3,7 +3,7 @@ package hust.soict.dsai.aims.media;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book extends Media{
+public class Book extends Media {
 	private List<String> authors = new ArrayList<String>();
 	public Book(List<String> authors) {
 		// TODO Auto-generated constructor stub
@@ -47,7 +47,6 @@ public class Book extends Media{
 		String result = "Book - " + super.toString() + " - Author: " + this.getAuthors();
 		return result;
 	}
-	
 	
 
 }

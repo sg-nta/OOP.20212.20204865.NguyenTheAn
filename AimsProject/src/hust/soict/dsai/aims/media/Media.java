@@ -2,14 +2,18 @@ package hust.soict.dsai.aims.media;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public abstract class Media {
+public abstract class Media implements Comparable<Media> {
 	private String title;
 	private String category;
 	private float cost;
 	private LocalDate dateAdded;
 	protected int ID;
 	protected ArrayList<Media> mediaList = new	ArrayList<Media>();
+	public static final Comparator<Media> COMPARE_BY_TITLE_COST = new MediaComparatorByTitleCost();
+	public static final Comparator<Media> COMPARE_BY_COST_TITLE = new MediaComparatorByCostTitle();
+
 	public Media() {
 		// TODO Auto-generated constructor stub
 	}
@@ -64,6 +68,37 @@ public abstract class Media {
 	public String toString() {
 		String result = "ID: " + this.getID() + " - Title: " + this.getTitle() + " - Category: " + this.getCategory() + " - Cost: " + this.getCost();
 		return result;
+	}
+
+	@Override
+	public int compareTo(Media o) {
+		// TODO Auto-generated method stub
+		return Comparator.comparing(Media::getTitle).thenComparing(Media::getCategory).compare(this, o);
+	}
+	
+	public class MediaComparatorByTitleCost implements Comparator<Media>{
+
+		@Override
+		public int compare(Media o1, Media o2) {
+			// TODO Auto-generated method stub
+			if (o1.getTitle() != o2.getTitle()) {
+				return o1.getTitle().compareTo(o2.getTitle()); 
+			}
+			return (int) ( o1.getCost() - o2.getCost()) ;
+		}
+		
+	}
+	public class MediaComparatorByCostTitle implements Comparator<Media>{
+
+		@Override
+		public int compare(Media o1, Media o2) {
+			// TODO Auto-generated method stub
+			if (o1.getCost() != o2.getCost()) {
+				return (int) ( o1.getCost() - o2.getCost()) ;
+			}
+			return o1.getTitle().compareTo(o2.getTitle());
+		}
+		
 	}
 
 }

@@ -204,8 +204,8 @@ public class Aims {
 	public static void sortMedia(Store store, Cart cart) {
 		System.out.println("Options: ");
 		System.out.println("-----------------------------");
-		System.out.println("1. Sort DVDs by Cost then Title");
-		System.out.println("2. Sort DVDs by Title then Cost");
+		System.out.println("1. Sort media by Cost then Title");
+		System.out.println("2. Sort media by Title then Cost");
 		System.out.println("0. Back");
 		System.out.println("-----------------------------");
 		System.out.println("Please choose a number: 0-1-2");

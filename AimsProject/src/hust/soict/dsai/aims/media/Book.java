@@ -17,6 +17,13 @@ public class Book extends Media {
 		// TODO Auto-generated constructor stub
 		this.authors = authors;
 	}
+	public Book(String title, String category, float cost, List<String> authors ) {
+		this.setTitle(title);
+		this.setCategory(category);
+		this.setCost(cost);
+		this.authors = authors;
+		
+	}
 	private List<String> getAuthors() {
 		return authors;
 	}

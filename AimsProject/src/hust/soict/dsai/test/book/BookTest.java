@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hust.soict.dsai.aims.media.Book;
+import hust.soict.dsai.aims.media.Media;
 
 public class BookTest {
 	public static void main (String args[]) {

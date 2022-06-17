@@ -15,11 +15,13 @@ public class ToStringTest {
 		// create some media here
 		// for example: cd, dvd, book
 		DigitalVideoDisc dvd = new DigitalVideoDisc("Jungle");
-		CompactDisc cd = new CompactDisc("Nhac");
+		CompactDisc cd = new CompactDisc("Chay ngay di", "Pop",3.5f, 3, "Ko biet", "Moutain");
 		List<String> authors = new ArrayList<String>();
 		authors.add("Adam");
 		authors.add("Eve");
 		Book book = new Book(authors);
+		book.setContent("ab dc def asd cdvji dofkd cok apdsaps  spc adamsdkc mdmvdv ; df kdmsc damkc ");
+		book.processContent();
 		mediae.add(cd);
 		mediae.add(dvd);
 		mediae.add(book);

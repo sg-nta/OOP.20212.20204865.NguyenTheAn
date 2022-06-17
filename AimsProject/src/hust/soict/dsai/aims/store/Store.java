@@ -11,7 +11,7 @@ public class Store {
 	public void addMedia(Media media) {
 		int check = 0;
 		for (int i = 0; i < itemsInStore.size(); i++ ) {
-			if (itemsInStore.get(i).getTitle().equals(media.getTitle())) {
+			if (itemsInStore.get(i).equals(media)) {
 				System.out.println("This media is already in the store");
 				check += 1;
 			}
@@ -72,5 +72,8 @@ public class Store {
 		for (int i = 0; i < itemsInStore.size(); i++ ) {
 			itemsInStore.get(i).setID(i);
 		}
+	}
+	public ArrayList<Media> getItemsInStore(){
+		return this.itemsInStore;
 	}
 }

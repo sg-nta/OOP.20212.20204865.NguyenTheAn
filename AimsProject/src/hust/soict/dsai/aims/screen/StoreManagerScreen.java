@@ -1,8 +1,10 @@
 package hust.soict.dsai.aims.screen;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
+import java.math.*;
 import javax.swing.*;
 
 import hust.soict.dsai.aims.media.Media;
@@ -34,9 +36,42 @@ public class StoreManagerScreen extends JFrame{
 		JMenu menu = new JMenu("Options");
 		
 		JMenu smUpdateStore = new JMenu("Update Store");
-		smUpdateStore.add(new JMenuItem("Add Book"));
-		smUpdateStore.add(new JMenuItem("Add CD"));
-		smUpdateStore.add(new JMenuItem("Add DVD"));
+		JMenuItem addBook = new JMenuItem("Add Book");
+		JMenuItem addCD = new JMenuItem("Add CD");
+		JMenuItem addDVD = new JMenuItem("Add DVD");
+		
+		addDVD.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new AddDigitalVideoDiscToStoreScreen(store);
+				dispose();
+
+			}
+			
+		});
+		addCD.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new AddCompactDiscToStoreScreen(store);
+			}
+			
+		});
+		addBook.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new AddBookToStoreScreen(store);
+			}
+			
+		});
+		smUpdateStore.add(addBook);
+		smUpdateStore.add(addCD);
+		smUpdateStore.add(addDVD);
 		
 		menu.add(smUpdateStore);
 		menu.add(new JMenuItem("View store"));
@@ -67,10 +102,25 @@ public class StoreManagerScreen extends JFrame{
 	
 	private JPanel createCenter() {
 		JPanel center =  new JPanel();
-		center.setLayout(new GridLayout(3, 3, 2, 2));
-		
 		ArrayList<Media> mediaInStore = store.getItemsInStore();
-		for (int i = 0; i < 9; i++) {
+		int size = mediaInStore.size();
+		int sizeFinal = -1;
+		for (int i = 0; i < size /2 ; i ++ ) {
+			if (i * i == size) {
+				sizeFinal = i;
+
+				center.setLayout(new GridLayout(sizeFinal, sizeFinal, 2, 2));
+				break;
+			}
+		}
+		if (sizeFinal == -1) {
+			sizeFinal = (int) Math.sqrt(size) + 1;
+			center.setLayout(new GridLayout(sizeFinal, sizeFinal - 1, 2, 2));
+
+		}
+		System.out.println(size);
+
+		for (int i = 0; i < mediaInStore.size() ; i++) {
 			MediaStore cell = new MediaStore(mediaInStore.get(i));
 			center.add(cell);
 		}

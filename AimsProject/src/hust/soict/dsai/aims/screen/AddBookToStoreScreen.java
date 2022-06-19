@@ -23,6 +23,7 @@ public class AddBookToStoreScreen extends JFrame{
 	private JTextField cost;
 	private JTextField authors;
 	private JButton btnSubmit;
+	private JButton btnBack;
 
 	public AddBookToStoreScreen(Store store) {
 		this.store = store;
@@ -48,7 +49,17 @@ public class AddBookToStoreScreen extends JFrame{
 		cp.add(new JLabel("Enter cost"));
 		cost = new JTextField(20);
 		cp.add(cost);
-		
+		btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new StoreManagerScreen(store);
+				dispose();
+				
+			}
+			
+		});
 		btnSubmit = new JButton("Enter");
 		
 		btnSubmit.addActionListener(new ActionListener() {
@@ -73,7 +84,7 @@ public class AddBookToStoreScreen extends JFrame{
 			}
 			
 		});
-
+		cp.add(btnBack);
 		cp.add(btnSubmit);
 
 		setTitle("Add DVD");

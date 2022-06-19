@@ -57,6 +57,7 @@ public class StoreManagerScreen extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				new AddCompactDiscToStoreScreen(store);
+				dispose();
 			}
 			
 		});
@@ -66,6 +67,7 @@ public class StoreManagerScreen extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				new AddBookToStoreScreen(store);
+				dispose();
 			}
 			
 		});
@@ -118,10 +120,8 @@ public class StoreManagerScreen extends JFrame{
 			center.setLayout(new GridLayout(sizeFinal, sizeFinal - 1, 2, 2));
 
 		}
-		System.out.println(size);
-
 		for (int i = 0; i < mediaInStore.size() ; i++) {
-			MediaStore cell = new MediaStore(mediaInStore.get(i));
+			MediaStore cell = new MediaStore(mediaInStore.get(i), (JFrame) this);
 			center.add(cell);
 		}
 		return center;

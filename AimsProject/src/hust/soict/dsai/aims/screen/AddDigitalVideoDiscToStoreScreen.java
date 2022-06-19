@@ -19,6 +19,7 @@ public class AddDigitalVideoDiscToStoreScreen extends JFrame {
 	private JTextField length;
 	private JTextField cost;
 	private JButton btnSubmit;
+	private JButton btnBack;
 	public AddDigitalVideoDiscToStoreScreen(Store store) {
 		this.store = store;
 		Container cp = getContentPane();
@@ -44,6 +45,18 @@ public class AddDigitalVideoDiscToStoreScreen extends JFrame {
 		cost = new JTextField(20);
 		cp.add(cost);
 		
+		btnBack = new JButton("Back");
+		btnBack.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new StoreManagerScreen(store);
+				dispose();
+				
+			}
+			
+		});
+		
 		btnSubmit = new JButton("Enter");
 		
 		btnSubmit.addActionListener(new ActionListener() {
@@ -62,7 +75,7 @@ public class AddDigitalVideoDiscToStoreScreen extends JFrame {
 			}
 			
 		});
-
+		cp.add(btnBack);
 		cp.add(btnSubmit);
 
 		setTitle("Add DVD");

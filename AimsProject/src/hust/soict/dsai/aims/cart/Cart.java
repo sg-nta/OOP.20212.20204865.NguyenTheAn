@@ -8,11 +8,13 @@ import java.util.stream.Collectors;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.lang.Math;
 public class Cart {
 	public static final int MAX_NUMBERS_ORDERED = 20;
-	private ArrayList<Media> itemsOrdered = new	ArrayList<Media>();
+	private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
 	private double totalCost = this.totalCost();
 	public float totalCost() {
 		float cost = 0;
@@ -61,19 +63,17 @@ public class Cart {
 		}
 	}
 	public void sortByCost() {
-		List<Media> listCopy = (List<Media>) itemsOrdered.clone(); 
-		Collections.sort(listCopy,Media.COMPARE_BY_COST_TITLE);
+		Collections.sort(itemsOrdered,Media.COMPARE_BY_COST_TITLE);
 		System.out.println("Sorted by Cost (then Title): ");
 		for (int i = 0; i< itemsOrdered.size(); i++) {
-			System.out.println(i + ". Title: "  + listCopy.get(i).getTitle() + " , Cost: " + listCopy.get(i).getCost());
+			System.out.println(i + ". Title: "  + itemsOrdered.get(i).getTitle() + " , Cost: " + itemsOrdered.get(i).getCost());
 		}
 	}
 	public void sortByTitle() {
-		List<Media> listCopy = (List<Media>) itemsOrdered.clone(); 
-		Collections.sort(listCopy,Media.COMPARE_BY_TITLE_COST);
+		Collections.sort(itemsOrdered,Media.COMPARE_BY_TITLE_COST);
 		System.out.println("Sorted by Title (then Cost): ");
 		for (int i = 0; i< itemsOrdered.size(); i++) {
-			System.out.println(i + ". Title: "  + listCopy.get(i).getTitle() + " , Cost: " + listCopy.get(i).getCost());
+			System.out.println(i + ". Title: "  + itemsOrdered.get(i).getTitle() + " , Cost: " + itemsOrdered.get(i).getCost());
 		}
 	}
 	public void searchByID(int ID) {
@@ -153,4 +153,8 @@ public class Cart {
 			((Playable) media).play();
 		}
 	}
+	public ObservableList<Media> getItemsOrdered() {
+		return itemsOrdered;
+	}
+	
 }

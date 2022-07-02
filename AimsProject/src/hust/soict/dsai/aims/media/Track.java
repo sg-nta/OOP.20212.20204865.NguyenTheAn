@@ -17,6 +17,10 @@ public class Track implements Playable, Comparable<Track>{
 		System.out.println("Playing track: " + this.getTitle());
 		System.out.println("Track length: " + this.getLength());
 		}
+	public String playString() {
+		String out = "Playing track: " + this.getTitle() + "\n" + "Track length: " + this.getLength();
+		return out;
+	}
 	public boolean equals(Object o) {
 		if (o instanceof Track) {
 			Track track = (Track) o;

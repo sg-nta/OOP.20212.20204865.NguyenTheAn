@@ -86,7 +86,7 @@ public class CartController {
 		colMediaTitle.setCellValueFactory(new PropertyValueFactory<Media, String>("title"));
 		colMediaCategory.setCellValueFactory(new PropertyValueFactory<Media, String>("category"));
 		colMediaCost.setCellValueFactory(new PropertyValueFactory<Media, Float>("cost"));
-		if (cart.getItemsOrdered() != null){
+		if (cart.getItemsOrdered().size() != 0){
 			tblMedia.setItems( this.cart.getItemsOrdered());
 			tblMedia.getSelectionModel().select(cart.getItemsOrdered().get(0));
 			btnRemove.setVisible(true);
@@ -96,9 +96,9 @@ public class CartController {
 			else {
 				btnPlay.setVisible(false);
 			}
-
 		}
 		else{
+			tblMedia.setItems( this.cart.getItemsOrdered());
 			btnPlay.setVisible(false);
 			btnRemove.setVisible(false);
 		}

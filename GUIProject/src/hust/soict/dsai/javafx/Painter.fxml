@@ -21,7 +21,7 @@
             <Insets right="8.0" />
          </BorderPane.margin>
          <children>
-            <TitledPane animated="false" prefHeight="80.0" prefWidth="62.0" text="Tools">
+            <TitledPane fx:id="titledPane" animated="false" prefHeight="80.0" prefWidth="62.0" text="Tools">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="22.0" prefWidth="61.0">
                      <children>
@@ -44,6 +44,6 @@
       </VBox>
    </left>
    <center>
-      <Pane fx:id="drawingAreaPane" onMouseDragged="#drawingAreaMouseDragged" prefHeight="464.0" prefWidth="446.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
+      <Pane fx:id="drawingAreaPane" onMouseDragged="#drawingAreaMouseDragged" prefHeight="464.0" prefWidth="555.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

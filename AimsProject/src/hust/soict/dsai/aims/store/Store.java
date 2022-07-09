@@ -2,6 +2,7 @@ package hust.soict.dsai.aims.store;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
@@ -62,10 +63,14 @@ public class Store {
 		}
 		return out;
 	}
-	public void playMedia(String title) {
+	public void playMedia(String title) throws PlayerException {
 		Media media = this.getMediaByTitle(title);
 		if (media instanceof Playable) {
-			((Playable) media).play();
+			try {
+				((Playable) media).play();
+			}catch(PlayerException e){
+				throw e;
+			}
 		}
 	}
 	public void setID() {

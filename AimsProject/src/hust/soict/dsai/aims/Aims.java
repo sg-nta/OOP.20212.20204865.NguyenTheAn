@@ -1,9 +1,12 @@
 package hust.soict.dsai.aims;
 import java.util.*;
 
+import javax.naming.LimitExceededException;
+
 import hust.soict.dsai.aims.media.Media ;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.store.Store;
 public class Aims {
@@ -68,7 +71,11 @@ public class Aims {
 			Scanner play = new Scanner(System.in);
 			String playString = play.next();
 			if (playString.equals("y")) {
-				store.playMedia(titleString);
+				try {
+					store.playMedia(titleString);
+				} catch (PlayerException e) {
+					System.out.println("Error, cannot play this media");
+				}
 			}
 			storeMenu(store,cart);
 		}
@@ -78,7 +85,12 @@ public class Aims {
 			Scanner title = new Scanner(System.in);
 			String titleString = title.next();
 			Media media = store.getMediaByTitle(titleString);
-			cart.addMedia(media);
+			try {
+				cart.addMedia(media);
+			} catch (LimitExceededException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			storeMenu(store,cart);
 		}
 		else if (choosen == 3) {

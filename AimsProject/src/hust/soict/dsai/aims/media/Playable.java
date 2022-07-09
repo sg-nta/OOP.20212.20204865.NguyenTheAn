@@ -1,8 +1,10 @@
 package hust.soict.dsai.aims.media;
 
+import hust.soict.dsai.aims.exception.PlayerException;
+
 public interface Playable {
-	public void play();
-	public String playString();
+	public void play() throws PlayerException;
+	public String playString() throws PlayerException;
 	
 
 }

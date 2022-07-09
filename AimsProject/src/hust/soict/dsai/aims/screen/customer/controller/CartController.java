@@ -1,8 +1,10 @@
 package hust.soict.dsai.aims.screen.customer.controller;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
 import hust.soict.dsai.aims.store.Store;
@@ -19,10 +21,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -54,7 +59,9 @@ public class CartController {
 
     @FXML
     private Button btnRemove;
-    
+
+    @FXML
+    private Button btnPlaceOrder;
 
     @FXML
     private RadioButton radioBtnFilterId;
@@ -63,7 +70,7 @@ public class CartController {
     private RadioButton radioBtnFilterTitle;
 
     @FXML
-    private Label tfFilter;
+    private TextField tfFilter;
 
     @FXML
     private ToggleGroup filterCategory;
@@ -81,10 +88,20 @@ public class CartController {
 		colMediaCost.setCellValueFactory(new PropertyValueFactory<Media, Float>("cost"));
 		if (cart.getItemsOrdered() != null){
 			tblMedia.setItems( this.cart.getItemsOrdered());
+			tblMedia.getSelectionModel().select(cart.getItemsOrdered().get(0));
+			btnRemove.setVisible(true);
+			if(cart.getItemsOrdered().get(0) instanceof Playable) {
+				btnPlay.setVisible(true);
+			}
+			else {
+				btnPlay.setVisible(false);
+			}
+
 		}
-		btnPlay.setVisible(false);
-		btnRemove.setVisible(false);
-		
+		else{
+			btnPlay.setVisible(false);
+			btnRemove.setVisible(false);
+		}
 		tblMedia.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Media>(){
 			@Override
 			public void changed(ObservableValue<? extends Media> observable, Media oldValue, Media newValue) {
@@ -92,36 +109,64 @@ public class CartController {
 			}
 		});
 		updateCostLabel();
+		updateBtnPlaceOrder();
 		tfFilter.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				System.out.println(1);
 				showFilteredMedia(newValue);
-				
 			}
 		});
+		filterCategory.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+    	    public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
+    	    	showFilteredMedia(tfFilter.getText());
+    	    }
+    	});
+
+    	
+	}
+	private void updateBtnPlaceOrder() {
+		if (cart.getItemsOrdered().size() == 0) {
+    		btnPlaceOrder.setDisable(true);
+    	}
 	}
 	private void showFilteredMedia(String newValue) {
-		FilteredList<Media> filteredData = new FilteredList<>(cart.getItemsOrdered(), b->true);
-		filteredData.setPredicate(media -> {
-			if (newValue == null || newValue.isEmpty()) {
-				return true;
-			}
-			String lowerCaseFilter = newValue.toLowerCase();
-			if(media.getTitle().toLowerCase().indexOf(lowerCaseFilter) != -1) {
-				return true;
-			}
-			else {
-				return false;
-			}
-			
-		});
+		FilteredList<Media> filteredData = new FilteredList<>(cart.getItemsOrdered());
+		if (((RadioButton) filterCategory.getSelectedToggle()).getText().equals(radioBtnFilterTitle.getText())) {
+			filteredData.setPredicate(media -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseFilter = newValue.toLowerCase().trim();
+				if(media.getTitle().toLowerCase().trim().indexOf(lowerCaseFilter) != -1) {
+					return true;
+				}
+				else {
+					return false;
+				}
+				
+			});
+		}
+		else {
+			filteredData.setPredicate(media -> {
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				String lowerCaseId = newValue.toLowerCase();
+				if(String.valueOf(media.getID()).toLowerCase().indexOf(lowerCaseId.trim()) != -1) {
+					return true;
+				}
+				else {
+					return false;
+				}
+				
+			});
+		}
 		SortedList<Media> sortedData = new SortedList<>(filteredData);
 		sortedData.comparatorProperty().bind(tblMedia.comparatorProperty());
 		tblMedia.setItems(sortedData);
-		System.out.println("1");
 	}
+
 	private void updateCostLabel() {
 		float cost = 0;
 		for (Media media:cart.getItemsOrdered()) {
@@ -146,13 +191,24 @@ public class CartController {
 	}
     @FXML
     void btnPlayPressed(ActionEvent event) {
-    	Media media = tblMedia.getSelectionModel().getSelectedItem();
-    	Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Play media");
-		alert.setHeaderText("Playing " + media.getTitle());
-		alert.setContentText(((Playable)media).playString());
-		alert.showAndWait();
-
+    	try {
+	    	Media media = tblMedia.getSelectionModel().getSelectedItem();
+	    	Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Play media");
+			alert.setHeaderText("Playing " + media.getTitle());
+			
+			if (media instanceof Playable) {
+    			alert.setContentText(((Playable)media).playString());
+    			alert.showAndWait();
+    		} else {
+    			throw new ClassCastException("This media is not playable!");
+    		}
+    	}catch (PlayerException | ClassCastException e) {
+			Alert alert1 = new Alert(AlertType.ERROR);
+			alert1.setTitle("Error");
+			alert1.setHeaderText(e.getMessage());
+			alert1.showAndWait();
+		}
     }
 
     @FXML
@@ -176,5 +232,23 @@ public class CartController {
     	}catch(IOException e) {
     		e.printStackTrace();
     	}
+    }
+    @FXML
+    void btnPlaceOrderPressed(ActionEvent event) {
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Place order");
+		alert.setHeaderText("Do you want to place order? ");
+		alert.setContentText(cart.cartInfo());
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.OK) {
+			Alert alert1 = new Alert(AlertType.INFORMATION);
+		    alert1.setTitle("Place Order ");
+		    alert1.setHeaderText("Status: ");
+		    alert1.setContentText("Success");
+		    alert1.showAndWait();
+		    cart.emptyCart();
+		    btnPlaceOrder.setDisable(true);
+		    updateBtnPlaceOrder();
+		}
     }
 }

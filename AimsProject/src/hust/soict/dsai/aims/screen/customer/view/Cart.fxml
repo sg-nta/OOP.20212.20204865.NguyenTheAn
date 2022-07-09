@@ -26,8 +26,8 @@
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
                <children>
-                  <Label fx:id="tfFilter" text="Filter" />
-                  <TextField />
+                  <Label text="Filter" />
+                  <TextField fx:id="tfFilter" />
                   <RadioButton fx:id="radioBtnFilterId" mnemonicParsing="false" selected="true" text="By ID">
                      <toggleGroup>
                         <ToggleGroup fx:id="filterCategory" />
@@ -78,7 +78,7 @@
                         </Label>
                      </children>
                   </HBox>
-                  <Button mnemonicParsing="false" style="-fx-background-color: #004cff;" text="Place Order" textFill="WHITE">
+                  <Button fx:id="btnPlaceOrder" mnemonicParsing="false" onAction="#btnPlaceOrderPressed" style="-fx-background-color: #004cff;" text="Place Order" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>

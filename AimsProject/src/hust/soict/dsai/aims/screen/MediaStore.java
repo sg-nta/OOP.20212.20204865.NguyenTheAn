@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
 
@@ -44,9 +45,13 @@ public class MediaStore extends JPanel{
 					JDialog dialog = new JDialog(frame, "Play media", true);
 			        JPanel mainGui = new JPanel(new BorderLayout());
 			        
-			        mainGui.setBorder(new EmptyBorder(20, 20, 20, 20));
-			        mainGui.add(new JLabel("Playing: " + media.getClass().getSimpleName() + " " + media.getTitle()  +"\n"), BorderLayout.CENTER);
-			        ((Playable) media).play();
+			        mainGui.setBorder(new EmptyBorder(50, 50, 50, 50));
+			     
+			        try {
+			        	mainGui.add(new JLabel(((Playable) media).playString()), BorderLayout.CENTER);
+					} catch (PlayerException e1) {
+						mainGui.add(new JLabel("ERROR: Length is non-positive"));
+					}
 			        JPanel buttonPanel = new JPanel(new FlowLayout());
 			        mainGui.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -56,19 +61,19 @@ public class MediaStore extends JPanel{
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							dialog.setVisible(false);
-							
+							frame.setVisible(false);
 						}
 			        	
 			        });
 
 			        buttonPanel.add(close);
-
 			        frame.setVisible(true);
 			        dialog.setContentPane(mainGui);
 			        dialog.pack();
 			        dialog.setLocationRelativeTo(frame);
 
 			        dialog.setVisible(true);
+			        
 				}
 				
 			});

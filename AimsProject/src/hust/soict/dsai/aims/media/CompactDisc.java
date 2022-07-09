@@ -3,6 +3,8 @@ package hust.soict.dsai.aims.media;
 import java.util.ArrayList;
 import java.util.List;
 
+import hust.soict.dsai.aims.exception.PlayerException;
+
 public class CompactDisc extends Disc implements Playable{
 	private String artist;
 	private List<Track> tracks = new ArrayList<Track>();
@@ -57,19 +59,37 @@ public class CompactDisc extends Disc implements Playable{
 		}
 		return sum;
 	}
-	public void play() {
-		System.out.println("Playing CD: " + this.getTitle());
- 		for (Track track: tracks) {
-			track.play();
+	public void play() throws PlayerException {
+		if(this.getLength() > 0) {
+			System.out.println("Playing CD: " + this.getTitle());
+	 		for (Track track: tracks) {
+				try {
+					track.play();
+				}catch(PlayerException e) {
+					throw e;
+				}
+			}
+		}
+		else {
+			throw new PlayerException("ERROR: CD length is non-positive");
 		}
 	}
-	public String playString() {
-		String out = "Playing CD: " + this.getTitle() + "\n";
-		for (Track track: tracks) {
-			out += track.playString();
-			out += "\n";
+	public String playString() throws PlayerException{
+		if(this.getLength() > 0) {
+			String out = "Playing CD: " + this.getTitle() + "\n";
+			for (Track track: tracks) {
+				try {
+					out += track.playString();
+					out += "\n";
+				}catch(PlayerException e) {
+					throw e;
+				}
+			}
+			return out;
 		}
-		return out;
+		else {
+			throw new PlayerException("ERROR: CD length is non-positive");
+		}
 	}
 	public String toString() {
 		String result = "CD - " + super.toString() + " - Artist: " + this.getArtist();

@@ -1,14 +1,19 @@
 package hust.soict.dsai.aims.screen;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import hust.soict.dsai.aims.media.CompactDisc;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
@@ -73,16 +78,43 @@ public class AddCompactDiscToStoreScreen extends JFrame{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String titleString = title.getText();
-				String categoryString = category.getText();
-				String directorString = director.getText();
-				String artistString = artist.getText();
-				int lengthInt = Integer.parseInt(length.getText());
-				float costFloat = Float.parseFloat(cost.getText());
-				CompactDisc cd = new CompactDisc(titleString, categoryString, costFloat, lengthInt, directorString, artistString);
-				store.addMedia(cd);
-				new StoreManagerScreen(store);
-				dispose();
+				try {
+					String titleString = title.getText();
+					String categoryString = category.getText();
+					String directorString = director.getText();
+					String artistString = artist.getText();
+					int lengthInt = Integer.parseInt(length.getText());
+					float costFloat = Float.parseFloat(cost.getText());
+					CompactDisc cd = new CompactDisc(titleString, categoryString, costFloat, lengthInt, directorString, artistString);
+					store.addMedia(cd);
+					new StoreManagerScreen(store);
+					dispose();
+				}catch(IllegalArgumentException ev){
+					JFrame frame = new JFrame();
+					JDialog dialog = new JDialog(frame, "Play media", true);
+			        JPanel mainGui = new JPanel(new BorderLayout());
+			        
+			        mainGui.setBorder(new EmptyBorder(50, 50, 50, 50));
+			        mainGui.add(new JLabel("Cost must be float and Length must be integer"));
+			        JPanel buttonPanel = new JPanel(new FlowLayout());
+			        mainGui.add(buttonPanel, BorderLayout.SOUTH);
+
+			        JButton close = new JButton("Close");
+			        close.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							dialog.setVisible(false);
+							frame.setVisible(false);
+						}
+			        	
+			        });
+			        buttonPanel.add(close);
+			        frame.setLocationRelativeTo(null);
+			        dialog.setContentPane(mainGui);
+			        dialog.pack();
+			        dialog.setLocationRelativeTo(frame);
+			        dialog.setVisible(true);
+				}
 			}
 			
 		});

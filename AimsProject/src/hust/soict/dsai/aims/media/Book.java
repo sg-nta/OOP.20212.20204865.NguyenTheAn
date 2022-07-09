@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import hust.soict.dsai.aims.exception.ExistAuthorException;
+import hust.soict.dsai.aims.exception.NullAuthorException;
+
 public class Book extends Media {
 	private List<String> authors = new ArrayList<String>();
 	private String content;
@@ -31,11 +34,10 @@ public class Book extends Media {
 	private void setAuthors(List<String> authors) {
 		this.authors = authors;
 	}
-	public void addAuthor(String authorName) {
+	public void addAuthor(String authorName) throws ExistAuthorException {
 		int check = 0;
 		for (int i = 0; i < authors.size(); i++ ) {
 			if (authors.get(i).equals(authorName)) {
-				System.out.println("This author is already in the list");
 				check += 1;
 			}
 		}
@@ -43,8 +45,11 @@ public class Book extends Media {
 			authors.add(authorName);
 			System.out.println("This author's name has been added");
 		}
+		else {
+			throw new ExistAuthorException("This author is already in the book!");
+		}
 	}
-	public void removeAuthor(String authorName) {
+	public void removeAuthor(String authorName) throws NullAuthorException {
 		int index = -1;
 		for (int i = 0; i < authors.size(); i ++) {
 			if (authors.get(i).equals(authorName)) {
@@ -52,7 +57,7 @@ public class Book extends Media {
 			}
 		}
 		if (index == -1) {
-			System.out.println("This author's name is not in the list");
+			throw new NullAuthorException("This author is not in the book"); 
 		}
 		else {
 			authors.remove(index);

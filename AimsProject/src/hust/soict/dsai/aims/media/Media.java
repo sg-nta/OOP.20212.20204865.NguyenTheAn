@@ -58,12 +58,19 @@ public abstract class Media implements Comparable<Media> {
 	public void setID(int id) {
 		this.ID = id;
 	}
-	public boolean equals(Object o) {
-		if (o instanceof Media) {
-			Media media = (Media) o;
-			return this.getTitle().equals(media.getTitle());
+	public boolean equals(Object o) throws NullPointerException, ClassCastException{
+		if (o != null) {
+			if (o instanceof Media) {
+				Media media = (Media) o;
+				return (this.getTitle().equals(media.getTitle()) && (this.getCost() == media.getCost()));
+			}
+			else {
+				throw new ClassCastException();
+			}
 		}
-		return false;
+		else {
+			throw new NullPointerException();
+		}
 	}
 	public String toString() {
 		String result = "ID: " + this.getID() + " - Title: " + this.getTitle() + " - Category: " + this.getCategory() + " - Cost: " + this.getCost();
@@ -71,9 +78,13 @@ public abstract class Media implements Comparable<Media> {
 	}
 
 	@Override
-	public int compareTo(Media o) {
-		// TODO Auto-generated method stub
-		return Comparator.comparing(Media::getTitle).thenComparing(Media::getCategory).compare(this, o);
+	public int compareTo(Media media) {
+		if (media != null) {
+			return Comparator.comparing(Media::getTitle).thenComparing(Media::getCategory).compare(this, media);
+		}
+		else {
+			throw new NullPointerException();
+		}
 	}
 	
 

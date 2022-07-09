@@ -1,6 +1,11 @@
 package hust.soict.dsai.aims.screen.customer.controller;
 
+import java.util.Optional;
+
+import javax.naming.LimitExceededException;
+
 import hust.soict.dsai.aims.cart.Cart;
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
 import javafx.event.ActionEvent;
@@ -9,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -43,17 +49,44 @@ public class ItemController {
 
     @FXML
     void btnAddToCartClicked(ActionEvent event) {
-    	cart.addMedia(media);
+    	Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Add media");
+		alert.setHeaderText("Do you want to add this media to cart? ");
+		alert.setContentText(media.toString());
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() == ButtonType.OK) {
+			try {
+			    cart.addMedia(media);
+				Alert alert1 = new Alert(AlertType.INFORMATION);
+			    alert1.setTitle("Add media ");
+			    alert1.setHeaderText("Status: ");
+			    alert1.setContentText("Success");
+			    alert1.showAndWait();
+			}catch(LimitExceededException | IllegalArgumentException e) {
+				Alert alert1 = new Alert(AlertType.ERROR);
+			    alert1.setTitle("Error ");
+			    alert1.setHeaderText("Error: ");
+			    alert1.setContentText(e.getMessage());
+			    alert1.showAndWait();
+			}
+		}
+
     }
 
     @FXML
     void btnPlayClicked(ActionEvent event) {
-    	Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Play media");
-		alert.setHeaderText("Playing " + media.getTitle());
-		alert.setContentText(((Playable)media).playString());
-		alert.showAndWait();
-
+		try {
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Play media");
+			alert.setHeaderText("Playing " + media.getTitle());
+			alert.setContentText(((Playable)media).playString());
+			alert.showAndWait();
+		} catch (PlayerException e) {
+			Alert alert1 = new Alert(AlertType.ERROR);
+			alert1.setTitle("Error");
+			alert1.setHeaderText(e.getMessage());
+			alert1.showAndWait();
+		}
     }
 
 }

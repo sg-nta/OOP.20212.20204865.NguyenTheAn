@@ -5,6 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.naming.LimitExceededException;
+
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
 import hust.soict.dsai.aims.media.Playable;
@@ -23,28 +26,30 @@ public class Cart {
 		}
 		return cost;
 	}
-	public void addMedia(Media media) {
-		if (media == null) {
-			System.out.println("This media is not in the store");
+
+	public void addMedia(Media media ) throws LimitExceededException, IllegalArgumentException{
+		if (itemsOrdered.size() == 0) {
+			itemsOrdered.add(media);
+			System.out.println("This media has been added");
 		}
-		else {
-			if (itemsOrdered.size() == 20) {
-				System.out.println("Your cart is already full");
+		else if (itemsOrdered.size() < MAX_NUMBERS_ORDERED) {
+			int check = 0;
+			for (int i = 0; i < itemsOrdered.size(); i++ ) {
+				if (itemsOrdered.get(i).equals(media)) {
+					check += 1;
+				}
+			}
+			if (check == 0) {
+				itemsOrdered.add(media);
+				System.out.println("This media has been added");
 			}
 			else {
-				int check = 0;
-				for (int i = 0; i < itemsOrdered.size(); i++ ) {
-					if (itemsOrdered.get(i).getTitle().equals(media.getTitle())) {
-						System.out.println("This media is already in the cart");
-						check += 1;
-					}
-				}
-				if (check == 0) {
-					itemsOrdered.add(media);
-					System.out.println("This media has been added");
-				}
-	
+				throw new IllegalArgumentException("ERROR: This media is already in the cart");
 			}
+
+		}
+		else {
+			throw new LimitExceededException("ERROR: The number of media has reached its limit");
 		}
 	}
 	public void removeMedia(Media media) {
@@ -150,11 +155,29 @@ public class Cart {
 			}
 		}
 		if (media instanceof Playable) {
-			((Playable) media).play();
+			try {
+				((Playable) media).play();
+			}catch (PlayerException e) {
+				System.out.println(e.getMessage());
+			}
 		}
 	}
 	public ObservableList<Media> getItemsOrdered() {
 		return itemsOrdered;
 	}
-	
+	public String cartInfo() {
+		List<Media> result = (ArrayList<Media>) itemsOrdered.stream().sorted(Comparator.comparing(Media::getTitle).thenComparing(Media::getCost).reversed()).collect(Collectors.toList());
+		String res = "";
+		res += "***********************CART***********************\n";
+		res += "Ordered Items: \n";
+		for (int i = 0; i< itemsOrdered.size(); i++) {
+			Media item = result.get(i);
+			res = res + ((i+1) + ". " + item.toString()) + "\n";
+		}
+		res = res + "Total cost: " + this.totalCost() + "\n";
+		res += "***************************************************";
+
+		return res;
+
+	}
 }

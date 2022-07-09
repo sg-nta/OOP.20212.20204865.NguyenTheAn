@@ -24,11 +24,10 @@ public class CompactDisc extends Disc implements Playable{
 	public String getArtist() {
 		return artist;
 	}
-	public void addTrack(Track track) {
+	public void addTrack(Track track) throws IllegalArgumentException{
 		int check = 0;
 		for (int i = 0; i < tracks.size(); i++ ) {
 			if (tracks.get(i).getTitle().equals(track.getTitle())) {
-				System.out.println("This track is already in the disc");
 				check += 1;
 			}
 		}
@@ -36,8 +35,11 @@ public class CompactDisc extends Disc implements Playable{
 			tracks.add(track);
 			System.out.println("This track has been added");
 		}
+		else {
+			throw new IllegalArgumentException("This track is already in the cart");
+		}
 	}
-	public void removeTrack(Track track) {
+	public void removeTrack(Track track) throws IllegalArgumentException{
 		int index = -1;
 		for (int i = 0; i < tracks.size(); i ++) {
 			if (tracks.get(i).getTitle().equals(track.getTitle())) {
@@ -45,7 +47,7 @@ public class CompactDisc extends Disc implements Playable{
 			}
 		}
 		if (index == -1) {
-			System.out.println("This track is not in the disc");
+			throw new IllegalArgumentException("This track is not in the cart");
 		}
 		else {
 			tracks.remove(index);

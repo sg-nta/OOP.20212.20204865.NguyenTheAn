@@ -52,15 +52,15 @@ public class Cart {
 			throw new LimitExceededException("ERROR: The number of media has reached its limit");
 		}
 	}
-	public void removeMedia(Media media) {
+	public void removeMedia(Media media) throws IllegalArgumentException{
 		int index = -1;
 		for (int i = 0; i < itemsOrdered.size(); i ++) {
-			if (itemsOrdered.get(i).getTitle().equals(media.getTitle())) {
+			if (itemsOrdered.get(i).equals(media)) {
 				index = i;
 			}
 		}
 		if (index == -1) {
-			System.out.println("This media is not in the cart");
+			throw new IllegalArgumentException("This media is not in the cart");
 		}
 		else {
 			itemsOrdered.remove(index);
